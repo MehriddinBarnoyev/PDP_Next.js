@@ -12,7 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
+import ListItem from "./ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
@@ -26,10 +26,9 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SearchIcon from "@mui/icons-material/Search";
 import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
 import { AccountCircle } from "@mui/icons-material";
-import HeaderWrapper from "./HeaderWrapper";
 import logo from "../Images/LOgo.png";
 import Image from "next/image";
-
+import menu01 from '../Menu'
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -97,7 +96,7 @@ const Header = ({ children }) => {
   };
 
   return (
-    <HeaderWrapper>
+    <>
       <Box sx={{ display: "flex" }}>
         <AppBar
           position="fixed"
@@ -168,36 +167,25 @@ const Header = ({ children }) => {
             <Image src={logo} alt="rasm bor" layout="responsive" />
           </Box>
           <List>
-            {["Dashboard", "Teams", "Employees", "Projects"].map(
-              (text, index) => (
-                <ListItem key={text} disablePadding className="list-items">
-                  <ListItemButton>
-                    <ListItemIcon>{Icons[index]}</ListItemIcon>
-                    <ListItemText primary={text} />
-                  </ListItemButton>
-                </ListItem>
-              )
-            )}
-          </List>
-          <Divider />
-          <List>
-            {["Meetings", "Tasks", "Settings"].map((text, index) => (
-              <ListItem key={text} disablePadding className="list-items">
+          {menu01.map((item, index) => (
+             <ListItem key={item.title} disablePadding className="list-items">
+              <ListItem disablePadding className={index == 0 ? 'active' : ''}>
                 <ListItemButton>
-                  <ListItemIcon>{icons2[index]}</ListItemIcon>
-                  <ListItemText primary={text} />
+                  <ListItemIcon>{item.icon}</ListItemIcon>
+                  <ListItemText primary={item.title} />
                 </ListItemButton>
               </ListItem>
-            ))}
-          </List>
-          
+            </ListItem>
+          ))}
+        </List>
+          <Divider />          
         </MuiDrawer>
         <Main open={open}>
           <DrawerHeader />
           {children}
         </Main>
       </Box>
-    </HeaderWrapper>
+    </>
   );
 };
 
