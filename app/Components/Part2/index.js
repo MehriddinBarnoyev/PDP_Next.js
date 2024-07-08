@@ -1,12 +1,12 @@
 "use client";
 import Image from "next/image";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React from "react";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
 import LineChart from "./Chart001";
 import rasm1 from "../Images/mine.jpg";
-import rasm2 from '../Images/free-images.jpg'
+import rasm2 from "../Images/free-images.jpg";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -31,7 +31,9 @@ export default function Part2() {
               <Box>
                 <Box display={"flex"} justifyContent={"space-between"}>
                   <Typography>Notifications</Typography>
-                  <Typography color={"#6956E5"}>View all</Typography>
+                  <Button>
+                    <Typography color={"#6956E5"}>View all</Typography>
+                  </Button>
                 </Box>
                 <div className="row py-2">
                   <div className="col">

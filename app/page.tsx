@@ -1,17 +1,20 @@
-import { Box, Button, Typography } from "@mui/material";
-import Image from "next/image";
-import Header from "./Components/Header/index"
+"use client";
+import { Box } from "@mui/material";
+import React, { useState } from "react";
+import Header from "./Components/Header";
 import Aside from "./Components/Aside";
-import Part2 from './Components/Part2'
 
 export default function Home() {
-  return (
-    <Box sx={{marginTop:"-8px"}}>
-      <Header>
-        <Aside/>
-        <Part2/>
-      </Header>
-    </Box>
+  const [currentComponent, setCurrentComponent] = useState(<Aside />);
 
+  const handleNavigation = (component) => {
+    setCurrentComponent(component);
+  };
+
+  return (
+    <Box sx={{ marginTop: "-8px" }}>
+      <Header onNavigate={handleNavigation} />
+      {currentComponent}
+    </Box>
   );
 }

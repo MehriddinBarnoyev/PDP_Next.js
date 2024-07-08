@@ -1,34 +1,40 @@
 "use client";
+import { Box, ListItemButton } from "@mui/material";
 import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "./ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import WidgetsIcon from "@mui/icons-material/Widgets";
+import { AccountCircle } from "@mui/icons-material";
+import SearchIcon from "@mui/icons-material/Search";
+import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
+import Image from "next/image";
+import logo from "../Images/LOgo.png";
+import Aside from "../Aside";
+import Widgets from "../Widgets/page";
+import { Typography } from "@mui/material";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PermMediaIcon from "@mui/icons-material/PermMedia";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import FolderIcon from "@mui/icons-material/Folder";
 import SettingsIcon from "@mui/icons-material/Settings";
-import SearchIcon from "@mui/icons-material/Search";
-import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
-import { AccountCircle } from "@mui/icons-material";
-import logo from "../Images/LOgo.png";
-import Image from "next/image";
-import menu01 from '../Menu'
+import Meetings from "../Meetings/page";
+import Settings from "../Settings/page";
+import Tasks from "../Tasks/page";
+import Projects from "../Projects/page";
+import MyListItem from "./ListItem";
+import Employees from "../Employees/page";
+
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -75,17 +81,20 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-const Icons = [
-  <DashboardIcon />,
-  <WidgetsIcon />,
-  <PeopleOutlineIcon />,
-  <PermMediaIcon />,
+const menuItems = [
+  { title: "Dashboard", icon: <DashboardIcon />, component: <Aside /> },
+  { title: "Teams", icon: <WidgetsIcon />, component: <Widgets /> },
+  { title: "Employees", icon: <PeopleOutlineIcon />, component: <Employees /> },
+  { title: "Projects", icon: <PermMediaIcon />, component: <Projects /> },
+  { title: "Meetings", icon: <LocalPhoneIcon />, component: <Meetings /> },
+  { title: "Tasks", icon: <FolderIcon />, component: <Tasks /> },
+  { title: "Settings", icon: <SettingsIcon />, component: <Settings /> }
 ];
-const icons2 = [<LocalPhoneIcon />, <FolderIcon />, <SettingsIcon />];
 
-const Header = ({ children }) => {
+const Header = ({ onNavigate }) => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [activeItem, setActiveItem] = useState(menuItems[0].title);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -95,97 +104,91 @@ const Header = ({ children }) => {
     setOpen(false);
   };
 
+  const handleNavigate = (component, title) => {
+    setActiveItem(title);
+    onNavigate(component);
+  };
+
   return (
-    <>
-      <Box sx={{ display: "flex" }}>
-        <AppBar
-          position="fixed"
-          open={open}
-          sx={{ background: "#fff", color: "black" }}
-        >
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Box>
-              <Toolbar>
-                <IconButton
-                  color="inherit"
-                  aria-label="open drawer"
-                  onClick={handleDrawerOpen}
-                  edge="start"
-                  sx={{ mr: 2, ...(open && { display: "none" }) }}
-                >
-                  <MenuIcon />
-                </IconButton>
-                <Box>
-                  <Typography variant="h5" noWrap component="div">
-                    Good Morning Anna
-                  </Typography>
-                  <Box>
-                    <span style={{ fontSize: "11px" }}>
-                      Hope you have a great day
-                    </span>
-                  </Box>
-                </Box>
-              </Toolbar>
-            </Box>
-            <Box>
-              <Box display="flex" paddingTop="20px">
-                <Box sx={{ paddingTop: "6px" }}>
-                  <SearchIcon />
-                  <CircleNotificationsIcon />
-                </Box>
-                <IconButton>
-                  <AccountCircle />
-                </IconButton>
-              </Box>
-            </Box>
-          </Box>
-        </AppBar>
-        <MuiDrawer
-          sx={{
+    <Box sx={{ display: "flex" }}>
+      <AppBar
+        position="fixed"
+        open={open}
+        sx={{ background: "#fff", color: "black" }}
+      >
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: "none" }) }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap component="div">
+            Good Morning Anna
+          </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <IconButton>
+            <SearchIcon />
+          </IconButton>
+          <IconButton>
+            <CircleNotificationsIcon />
+          </IconButton>
+          <IconButton>
+            <AccountCircle />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+      <MuiDrawer
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
-            flexShrink: 0,
-            "& .MuiDrawer-paper": {
-              width: drawerWidth,
-              boxSizing: "border-box",
-            },
-          }}
-          variant="persistent"
-          anchor="left"
-          open={open}
-        >
-          <DrawerHeader>
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "ltr" ? (
-                <ChevronLeftIcon />
-              ) : (
-                <ChevronRightIcon />
-              )}
-            </IconButton>
-          </DrawerHeader>
-          <Divider />
-          <Box marginTop={"-60px"}>
-            <Image src={logo} alt="rasm bor" layout="responsive" />
-          </Box>
-          <List>
-          {menu01.map((item, index) => (
-             <ListItem key={item.title} disablePadding className="list-items">
-              <ListItem disablePadding className={index == 0 ? 'active' : ''}>
-                <ListItemButton>
-                  <ListItemIcon>{item.icon}</ListItemIcon>
-                  <ListItemText primary={item.title} />
-                </ListItemButton>
-              </ListItem>
-            </ListItem>
+            boxSizing: "border-box",
+          },
+        }}
+        variant="persistent"
+        anchor="left"
+        open={open}
+      >
+        <DrawerHeader>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
+          </IconButton>
+        </DrawerHeader>
+        <Divider />
+        <Box marginTop={"-60px"}>
+          <Image src={logo} alt="Logo" layout="responsive" />
+        </Box>
+        <List>
+          {menuItems.map((item) => (
+            <MyListItem
+              key={item.title}
+              disablePadding
+              className={item.title === activeItem ? "active" : ""}
+            >
+              <ListItemButton
+                onClick={() => handleNavigate(item.component, item.title)}
+              >
+                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemText primary={item.title} />
+              </ListItemButton>
+            </MyListItem>
           ))}
         </List>
-          <Divider />          
-        </MuiDrawer>
-        <Main open={open}>
-          <DrawerHeader />
-          {children}
-        </Main>
-      </Box>
-    </>
+        <Divider />
+      </MuiDrawer>
+      <Main open={open}>
+        <DrawerHeader />
+      </Main>
+    </Box>
   );
 };
 
